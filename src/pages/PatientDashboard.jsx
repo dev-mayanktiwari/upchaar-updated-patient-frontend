@@ -31,18 +31,18 @@ function PatientDashboard() {
           className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
         >
           <h3 className="text-xl font-bold text-blue-600 mb-2">
-            Appointment Status
+            Appointment History
           </h3>
           <p className="text-gray-600">
             Check your upcoming and past appointments
           </p>
         </Link>
         <Link
-          to="/medication"
+          to="/check-appointment-status"
           className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
         >
-          <h3 className="text-xl font-bold text-blue-600 mb-2">Medication</h3>
-          <p className="text-gray-600">View and manage your prescriptions</p>
+          <h3 className="text-xl font-bold text-blue-600 mb-2">Check Appointment</h3>
+          <p className="text-gray-600">Check the status of your appointments using appointment ID</p>
         </Link>
         <ChatbotPopup />
       </div>

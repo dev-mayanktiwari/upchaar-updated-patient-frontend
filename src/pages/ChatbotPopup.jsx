@@ -9,11 +9,12 @@ const ChatbotPopup = () => {
   const [currentStep, setCurrentStep] = useState("greeting");
   const [appointmentData, setAppointmentData] = useState({
     hospitalId: null,
-    departmentId: 1,
+    departmentId: null,
     title: "",
     time: "",
   });
   const [hospitals, setHospitals] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const messagesEndRef = useRef(null);
 
   const fetchHospitals = useCallback(async () => {
@@ -30,6 +31,13 @@ const ChatbotPopup = () => {
       setHospitals(response.data);
     } catch (error) {
       console.error("Error fetching hospitals:", error);
+      setMessages((prev) => [
+        ...prev,
+        {
+          text: "Sorry, there was an error fetching hospitals. Please try again later.",
+          sender: "bot",
+        },
+      ]);
     }
   }, []);
 
@@ -78,6 +86,16 @@ const ChatbotPopup = () => {
 
   const handleHospitalSelect = useCallback((hospital) => {
     setAppointmentData((prev) => ({ ...prev, hospitalId: hospital.value }));
+    setMessages((prev) => [
+      ...prev,
+      { text: `You selected ${hospital.text}`, sender: "user" },
+      { text: "Fetching departments...", sender: "bot" },
+    ]);
+    setCurrentStep("selectDepartment");
+  }, []);
+
+  const handleDepartmentSelect = useCallback((department) => {
+    setAppointmentData((prev) => ({ ...prev, departmentId: department.value }));
     const dateOptions = [
       new Date(),
       new Date(Date.now() + 24 * 60 * 60 * 1000),
@@ -88,7 +106,7 @@ const ChatbotPopup = () => {
     }));
     setMessages((prev) => [
       ...prev,
-      { text: `You selected ${hospital.text}`, sender: "user" },
+      { text: `You selected ${department.text}`, sender: "user" },
       {
         text: "Please select a date for your appointment:",
         sender: "bot",
@@ -174,6 +192,12 @@ const ChatbotPopup = () => {
           ],
         },
       ]);
+      setAppointmentData({
+        hospitalId: null,
+        departmentId: null,
+        title: "",
+        time: "",
+      });
     } catch (error) {
       console.error("Error booking appointment:", error);
       setMessages((prev) => [
@@ -199,8 +223,14 @@ const ChatbotPopup = () => {
 
   const handleAppointmentIdSubmit = useCallback(async (appointmentId) => {
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:3000/api/v1/patient/check-appointment-status/${appointmentId}`
+        `http://localhost:3000/api/v1/patient/check-appointment-status/${appointmentId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       const { status, queue } = response.data;
       let message = `Your appointment status is: ${status}`;
@@ -225,7 +255,7 @@ const ChatbotPopup = () => {
         },
       ]);
     } catch (error) {
-      console.log(error);
+      console.error("Error checking appointment status:", error);
       setMessages((prev) => [
         ...prev,
         {
@@ -263,9 +293,87 @@ const ChatbotPopup = () => {
     [inputText, currentStep, handleTitleSubmit, handleAppointmentIdSubmit]
   );
 
+  const handleOptionClick = useCallback(
+    (option) => {
+      if (currentStep === "greeting" || option.value === "end") {
+        if (option.value === "end") {
+          setMessages((prev) => [
+            ...prev,
+            {
+              text: "Thank you for using our service. Have a great day!",
+              sender: "bot",
+            },
+          ]);
+          setTimeout(() => {
+            toggleChat();
+          }, 2000);
+        } else {
+          handleOptionSelect(option);
+        }
+      } else if (currentStep === "selectHospital") {
+        handleHospitalSelect(option);
+      } else if (currentStep === "selectDepartment") {
+        handleDepartmentSelect(option);
+      } else if (currentStep === "selectDate") {
+        handleDateSelect(option);
+      } else if (currentStep === "selectTime") {
+        handleTimeSelect(option);
+      }
+    },
+    [
+      currentStep,
+      handleOptionSelect,
+      handleHospitalSelect,
+      handleDepartmentSelect,
+      handleDateSelect,
+      handleTimeSelect,
+      toggleChat,
+    ]
+  );
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    if (appointmentData.hospitalId) {
+      const fetchDepartments = async () => {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await axios.get(
+            `http://localhost:3000/api/v1/hospital/departments/${appointmentData.hospitalId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setDepartments(response.data);
+          setMessages((prev) => [
+            ...prev,
+            {
+              text: "Please select a department:",
+              sender: "bot",
+              options: response.data.map((d) => ({
+                text: d.name,
+                value: d.id,
+              })),
+            },
+          ]);
+        } catch (error) {
+          console.error("Error fetching departments:", error);
+          setMessages((prev) => [
+            ...prev,
+            {
+              text: "Sorry, there was an error fetching departments. Please try again.",
+              sender: "bot",
+            },
+          ]);
+        }
+      };
+      fetchDepartments();
+    }
+  }, [appointmentData.hospitalId]);
 
   return (
     <div className="fixed bottom-4 right-4 z-40">
@@ -322,33 +430,7 @@ const ChatbotPopup = () => {
                       {message.options.map((option, optionIndex) => (
                         <button
                           key={optionIndex}
-                          onClick={() => {
-                            if (
-                              currentStep === "greeting" ||
-                              option.value === "end"
-                            ) {
-                              if (option.value === "end") {
-                                setMessages((prev) => [
-                                  ...prev,
-                                  {
-                                    text: "Thank you for using our service. Have a great day!",
-                                    sender: "bot",
-                                  },
-                                ]);
-                                setTimeout(() => {
-                                  toggleChat();
-                                }, 2000);
-                              } else {
-                                handleOptionSelect(option);
-                              }
-                            } else if (currentStep === "selectHospital") {
-                              handleHospitalSelect(option);
-                            } else if (currentStep === "selectDate") {
-                              handleDateSelect(option);
-                            } else if (currentStep === "selectTime") {
-                              handleTimeSelect(option);
-                            }
-                          }}
+                          onClick={() => handleOptionClick(option)}
                           className="bg-blue-100 text-blue-800 px-2 py-1 rounded-md mr-2 mb-2 text-sm"
                         >
                           {option.text}

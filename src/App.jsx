@@ -4,19 +4,16 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import PatientDashboard from "./pages/PatientDashboard";
-import HospitalDashboard from "./pages/HospitalDashboard";
+
 import ViewHospitals from "./pages/ViewHospitals";
 import BookAppointment from "./pages/BookAppointment";
 import AppointmentStatus from "./pages/AppointmentStatus";
-import Medication from "./pages/Medication";
-import ManageDepartments from "./pages/ManageDepartments";
-import ManageAppointments from "./pages/ManageAppointments";
-import InventoryManagement from "./pages/InventoryManagement";
-import BedManagement from "./pages/BedManagement";
+
 import ChatbotPopup from "./pages/ChatbotPopup";
 import SignIn from "./pages/SignIn";
 import HospitalDetails from "./pages/HospitalDetail";
 import { useAuthContext } from "./context/AuthUser";
+import AppointmentStatusChecker from "./pages/AppointmentStatusChecker";
 
 function App() {
   const { authUser } = useAuthContext();
@@ -30,24 +27,19 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/patient-dashboard" element={<PatientDashboard />} />
-            <Route path="/hospital-dashboard" element={<HospitalDashboard />} />
+
             <Route path="/view-hospitals" element={<ViewHospitals />} />
             <Route path="/book-appointment" element={<BookAppointment />} />
             <Route path="/appointment-status" element={<AppointmentStatus />} />
-            <Route path="/medication" element={<Medication />} />
-            <Route path="/manage-departments" element={<ManageDepartments />} />
+
             <Route path="/signin" element={<SignIn />} />
-            <Route
-              path="/manage-appointments"
-              element={<ManageAppointments />}
-            />
-            <Route
-              path="/inventory-management"
-              element={<InventoryManagement />}
-            />
-            <Route path="/bed-management" element={<BedManagement />} />
+
             <Route path="/hospitals" element={<ViewHospitals />} />
             <Route path="/hospital/:id" element={<HospitalDetails />} />
+            <Route
+              path="check-appointment-status"
+              element={<AppointmentStatusChecker />}
+            />
           </Routes>
         </main>
         <Footer />
