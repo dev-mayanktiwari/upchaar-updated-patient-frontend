@@ -20,7 +20,7 @@ function BookAppointment() {
   useEffect(() => {
     if (selectedHospital) {
       const hospital = hospitals.find(
-        (h) => h.id === parseInt(selectedHospital)
+        (h) => h.id === parseInt(selectedHospital),
       );
       setDepartments(hospital ? hospital.departments : []);
     } else {
@@ -31,7 +31,7 @@ function BookAppointment() {
   useEffect(() => {
     const lowercasedQuery = searchQuery.toLowerCase();
     const filtered = hospitals.filter((hospital) =>
-      hospital.name.toLowerCase().includes(lowercasedQuery)
+      hospital.name.toLowerCase().includes(lowercasedQuery),
     );
     setFilteredHospitals(filtered);
   }, [searchQuery, hospitals]);
@@ -40,7 +40,7 @@ function BookAppointment() {
     setLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/v1/hospital/search?query="
+        "http://localhost:3000/api/v1/hospital/search?query=",
       );
       setHospitals(response.data);
       setFilteredHospitals(response.data);
@@ -74,7 +74,7 @@ function BookAppointment() {
             Authorization: `Bearer ${token}`,
             "Content-Type": "Application/json",
           },
-        }
+        },
       );
       alert("Appointment booked successfully!");
       // Reset form
@@ -85,7 +85,9 @@ function BookAppointment() {
       setSearchQuery("");
     } catch (err) {
       console.log(err);
-      setError("Failed to book appointment");
+      const errorMessage =
+        err.response?.data?.error || "Failed to book appointment";
+      setError(errorMessage);
     }
     setLoading(false);
   };
