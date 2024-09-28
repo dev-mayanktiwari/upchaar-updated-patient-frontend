@@ -40,7 +40,7 @@ function AppointmentStatusChecker() {
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold text-blue-600 mb-6">
-        Check Appointment Status
+        Check Booking Status
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -91,9 +91,13 @@ function AppointmentStatusChecker() {
               <h4 className="text-md font-semibold mb-2">Queue Information</h4>
               <ul className="list-disc list-inside space-y-1">
                 <li>Your position: {queue.userPosition}</li>
-                <li>People ahead of you: {queue.peopleAhead}</li>
-                <li>Total queue length: {queue.totalQueueLength}</li>
+                <li>Booking ahead of you: {queue.peopleAhead}</li>
+                <li>Total bookings: {queue.totalQueueLength}</li>
               </ul>
+              <div>
+                In case, anyone cancels booking you will be notify through SMS
+                and email alerts
+              </div>
             </div>
           )}
         </div>

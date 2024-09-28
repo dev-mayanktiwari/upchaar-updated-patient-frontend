@@ -5,15 +5,24 @@ function PatientDashboard() {
   return (
     <div>
       <h2 className="text-3xl font-bold text-blue-600 mb-8">
-        Patient Dashboard
+        Traveller Dashboard
       </h2>
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <Link
+          to="/view-tourist-places"
+          className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+        >
+          <h3 className="text-xl font-bold text-blue-600 mb-2">
+            View Tourist Places
+          </h3>
+          <p className="text-gray-600">Find and explore nearby tourist spots</p>
+        </Link>
         <Link
           to="/view-hospitals"
           className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
         >
           <h3 className="text-xl font-bold text-blue-600 mb-2">
-            View Hospitals
+            View Hotels
           </h3>
           <p className="text-gray-600">Find and explore nearby hospitals</p>
         </Link>
@@ -22,27 +31,27 @@ function PatientDashboard() {
           className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
         >
           <h3 className="text-xl font-bold text-blue-600 mb-2">
-            Book Appointment
+            Book Hotel
           </h3>
-          <p className="text-gray-600">Schedule a new appointment</p>
+          <p className="text-gray-600">Schedule a new booking</p>
         </Link>
         <Link
           to="/appointment-status"
           className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
         >
           <h3 className="text-xl font-bold text-blue-600 mb-2">
-            Appointment History
+            Booking History
           </h3>
           <p className="text-gray-600">
-            Check your upcoming and past appointments
+            Check your upcoming and past bookings
           </p>
         </Link>
         <Link
           to="/check-appointment-status"
           className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
         >
-          <h3 className="text-xl font-bold text-blue-600 mb-2">Check Appointment</h3>
-          <p className="text-gray-600">Check the status of your appointments using appointment ID</p>
+          <h3 className="text-xl font-bold text-blue-600 mb-2">Check Bookings</h3>
+          <p className="text-gray-600">Check the status of your appointments using booking ID</p>
         </Link>
         <ChatbotPopup />
       </div>

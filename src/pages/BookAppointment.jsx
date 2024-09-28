@@ -20,7 +20,7 @@ function BookAppointment() {
   useEffect(() => {
     if (selectedHospital) {
       const hospital = hospitals.find(
-        (h) => h.id === parseInt(selectedHospital),
+        (h) => h.id === parseInt(selectedHospital)
       );
       setDepartments(hospital ? hospital.departments : []);
     } else {
@@ -31,7 +31,7 @@ function BookAppointment() {
   useEffect(() => {
     const lowercasedQuery = searchQuery.toLowerCase();
     const filtered = hospitals.filter((hospital) =>
-      hospital.name.toLowerCase().includes(lowercasedQuery),
+      hospital.name.toLowerCase().includes(lowercasedQuery)
     );
     setFilteredHospitals(filtered);
   }, [searchQuery, hospitals]);
@@ -40,7 +40,7 @@ function BookAppointment() {
     setLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/v1/hospital/search?query=",
+        "http://localhost:3000/api/v1/hospital/search?query="
       );
       setHospitals(response.data);
       setFilteredHospitals(response.data);
@@ -58,13 +58,13 @@ function BookAppointment() {
 
     const payload = {
       hospitalId: parseInt(selectedHospital),
-      departmentId: parseInt(department),
+      departmentId: parseInt(departments[0]),
       title: "Appointment",
       time: `${date}T${time}:00Z`,
     };
 
     const token = localStorage.getItem("token");
-
+    
     try {
       await axios.post(
         "http://localhost:3000/api/v1/patient/book-appointment",
@@ -74,7 +74,7 @@ function BookAppointment() {
             Authorization: `Bearer ${token}`,
             "Content-Type": "Application/json",
           },
-        },
+        }
       );
       alert("Appointment booked successfully!");
       // Reset form
@@ -107,7 +107,7 @@ function BookAppointment() {
   return (
     <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold text-center text-blue-600 mb-6">
-        Book an Appointment
+        Book a Hotel
       </h2>
       {loading && <p className="text-center text-gray-600">Loading...</p>}
       {error && <p className="text-center text-red-500 mb-4">{error}</p>}
@@ -117,7 +117,7 @@ function BookAppointment() {
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="hospital"
           >
-            Hospital:
+            Hotel:
           </label>
           <div className="relative">
             <input
@@ -138,7 +138,7 @@ function BookAppointment() {
               required
               className="w-full p-2 border rounded-md mt-2"
             >
-              <option value="">Select a hospital</option>
+              <option value="">Select a hotel</option>
               {filteredHospitals.map((hospital) => (
                 <option key={hospital.id} value={hospital.id}>
                   {hospital.name}
@@ -147,28 +147,7 @@ function BookAppointment() {
             </select>
           </div>
         </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="department"
-          >
-            Department:
-          </label>
-          <select
-            id="department"
-            value={department}
-            onChange={(e) => setDepartment(e.target.value)}
-            required
-            className="w-full p-2 border rounded-md"
-          >
-            <option value="">Select a department</option>
-            {departments.map((dept) => (
-              <option key={dept.id} value={dept.id}>
-                {dept.name}
-              </option>
-            ))}
-          </select>
-        </div>
+
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -218,7 +197,7 @@ function BookAppointment() {
           className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
           disabled={loading}
         >
-          {loading ? "Booking..." : "Book Appointment"}
+          {loading ? "Booking..." : "Book Hotel"}
         </button>
       </form>
     </div>

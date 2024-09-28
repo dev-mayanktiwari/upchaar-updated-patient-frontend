@@ -40,7 +40,7 @@ function ViewHospitals() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold text-blue-600 mb-8">
-        Nearby Hospitals
+        Nearby Hotels
       </h2>
       <div className="mb-6">
         <input
@@ -93,18 +93,7 @@ function ViewHospitals() {
                   />
                 ))}
               </div>
-              <div className="mb-4 flex-grow">
-                <h4 className="font-semibold text-gray-700 mb-2">
-                  Departments:
-                </h4>
-                <ul className="list-disc list-inside">
-                  {hospital.departments.map((dept) => (
-                    <li key={dept.id} className="text-gray-600">
-                      {dept.name} - {dept.head}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+
               <Link
                 to={`/hospital/${hospital.id}`}
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-block text-center mt-auto"

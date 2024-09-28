@@ -51,9 +51,7 @@ function AppointmentStatus() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h2 className="text-3xl font-bold text-blue-600 mb-8">
-        Appointment Status
-      </h2>
+      <h2 className="text-3xl font-bold text-blue-600 mb-8">Booking Status</h2>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white">
           <thead className="bg-gray-100">
@@ -74,10 +72,7 @@ function AppointmentStatus() {
                 Status
               </th>
               <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Hospital ID
-              </th>
-              <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Department ID
+                Hotel ID
               </th>
             </tr>
           </thead>

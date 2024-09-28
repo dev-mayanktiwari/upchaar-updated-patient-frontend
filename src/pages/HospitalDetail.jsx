@@ -61,7 +61,7 @@ function HospitalDetails() {
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
         <div className="relative h-64 sm:h-80 md:h-96">
           <img
-            src="/hopitaldd.jpg"
+            src="/hotelimage.jpeg"
             alt={hospital.name || "Hospital"}
             className="h-full w-full object-fill"
           />
@@ -119,7 +119,7 @@ function HospitalDetails() {
             </div>
             <div>
               <h3 className="text-xl font-bold text-blue-600 mb-4">
-                Bed Availability
+                Room Availability
               </h3>
               <TotalBedsStatusBar
                 totalBeds={totalBeds}
@@ -127,38 +127,25 @@ function HospitalDetails() {
               />
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <BedAvailabilityCard
-                  type="ICU"
+                  type="Standard"
                   totalBeds={hospital.beds?.icu?.totalBed}
                   availableBeds={hospital.beds?.icu?.availableBed}
                   color="blue"
                 />
                 <BedAvailabilityCard
-                  type="General"
+                  type="Deluxe"
                   totalBeds={hospital.beds?.general?.totalBed}
                   availableBeds={hospital.beds?.general?.availableBed}
                   color="green"
                 />
                 <BedAvailabilityCard
-                  type="Premium"
+                  type="Suite"
                   totalBeds={hospital.beds?.premium?.totalBed}
                   availableBeds={hospital.beds?.premium?.availableBed}
                   color="yellow"
                 />
               </div>
             </div>
-          </div>
-
-          <h3 className="text-2xl font-bold text-blue-600 mb-4">Departments</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {hospital.departments?.map((dept, index) => (
-              <div key={index} className="bg-gray-100 p-4 rounded-lg shadow-md">
-                <FaUserMd className="text-blue-500 text-2xl mb-2" />
-                <h4 className="font-bold text-blue-600 mb-1">
-                  {dept.name || "N/A"}
-                </h4>
-                <p className="text-sm text-gray-600">{dept.head || "N/A"}</p>
-              </div>
-            )) || <p>No departments available</p>}
           </div>
 
           <div className="mt-8 flex justify-center">
@@ -175,13 +162,13 @@ function HospitalDetails() {
 function TotalBedsStatusBar({ totalBeds, availableBeds }) {
   return (
     <div className="bg-gray-100 p-6 rounded-lg shadow-md mb-6">
-      <h4 className="font-bold text-gray-800 text-xl mb-4">Total Bed Status</h4>
+      <h4 className="font-bold text-gray-800 text-xl mb-4">Total Room Status</h4>
       <div className="flex justify-between mb-2">
-        <span className="text-gray-600">Total Beds:</span>
+        <span className="text-gray-600">Total Rooms:</span> 
         <span className="font-semibold">{totalBeds}</span>
       </div>
       <div className="flex justify-between mb-2">
-        <span className="text-gray-600">Available Beds:</span>
+        <span className="text-gray-600">Available Rooms:</span>
         <span className="font-semibold text-green-600">{availableBeds}</span>
       </div>
       <div className="relative pt-1">
@@ -207,11 +194,11 @@ function BedAvailabilityCard({ type, totalBeds, availableBeds, color }) {
       </div>
       <div className="space-y-2">
         <div className="flex justify-between">
-          <span className="text-gray-600">Total Beds:</span>
+          <span className="text-gray-600">Total Rooms:</span>
           <span className="font-semibold">{totalBeds || "N/A"}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-gray-600">Available:</span>
+          <span className="text-gray-600">Available Rooms:</span>
           <span className="font-semibold text-green-600">
             {availableBeds || "N/A"}
           </span>
