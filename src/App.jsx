@@ -14,6 +14,8 @@ import SignIn from "./pages/SignIn";
 import HospitalDetails from "./pages/HospitalDetail";
 import { useAuthContext } from "./context/AuthUser";
 import AppointmentStatusChecker from "./pages/AppointmentStatusChecker";
+import TouristPlaces from "./pages/ViewTouristPlaces";
+import TouristPlaceDetails from "./pages/TouristPlaceDetails";
 
 function App() {
   const { authUser } = useAuthContext();
@@ -27,11 +29,11 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/patient-dashboard" element={<PatientDashboard />} />
-
+            <Route path="/view-tourist-places" element={<TouristPlaces/>} />
             <Route path="/view-hospitals" element={<ViewHospitals />} />
             <Route path="/book-appointment" element={<BookAppointment />} />
             <Route path="/appointment-status" element={<AppointmentStatus />} />
-
+            <Route path="/tourist-place/taj-mahal" element={<TouristPlaceDetails />} />
             <Route path="/signin" element={<SignIn />} />
 
             <Route path="/hospitals" element={<ViewHospitals />} />
